@@ -3,8 +3,8 @@ class Pgit < Formula
   homepage "https://github.com/thoughtindustries/pgit"
   url "https://github.com/thoughtindustries/pgit.git",
       using:    :git,
-      tag:      "v0.2.0",
-      revision: "3e35e4c0ca0a813341d6a891ddb539a270295490"
+      tag:      "v0.3.0",
+      revision: "fea3d23bc0a5ebd52ce7bcd87cbd14918fb7a913"
   license "GPL-3.0-or-later"
   head "https://github.com/thoughtindustries/pgit.git", using: :git, branch: "main"
 

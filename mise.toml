@@ -1,0 +1,34 @@
+[tools]
+rust = "stable"
+
+[tasks.build]
+description = "Build a release binary (target/release/pgit)"
+run = "cargo build --release"
+
+[tasks.dev]
+description = "Run pgit from source, e.g. `mise run dev status`"
+run = "cargo run -q --"
+
+[tasks.test]
+description = "Unit tests"
+run = "cargo test"
+
+[tasks.lint]
+description = "Format check + clippy, as in CI"
+run = ["cargo fmt --check", "cargo clippy --all-targets -- -D warnings"]
+
+[tasks.e2e]
+description = "End-to-end tests against a throwaway Postgres container on port 54329"
+depends = ["build"]
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+docker run -d --rm --name pgit-e2e -e POSTGRES_PASSWORD=password -p 54329:5432 postgres:17-alpine >/dev/null
+trap 'docker stop pgit-e2e >/dev/null' EXIT
+until docker exec pgit-e2e pg_isready -q -U postgres; do sleep 1; done
+PGIT_TEST_URL=postgres://postgres:password@localhost:54329 tests/e2e.sh target/release/pgit
+"""
+
+[tasks.check]
+description = "Everything CI runs"
+depends = ["lint", "test", "e2e"]

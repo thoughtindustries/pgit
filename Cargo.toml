@@ -1,0 +1,17 @@
+[package]
+name = "pgit"
+version = "0.3.0"
+edition = "2024"
+description = "Per-branch Postgres databases"
+license = "GPL-3.0-or-later"
+publish = false
+
+[dependencies]
+anyhow = "1.0.104"
+clap = { version = "4.6.7", features = ["derive"] }
+libc = "0.2.191"
+postgres = "0.19.14"
+regex = "1.13.1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde-saphyr = "2.0.0"
+toml_edit = "0.25.17"
